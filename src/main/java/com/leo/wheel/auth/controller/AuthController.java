@@ -1,10 +1,11 @@
-package com.leo.wheel.auth;
+package com.leo.wheel.auth.controller;
 
 import java.util.Date;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leo.wheel.entity.auth.User;
@@ -17,12 +18,13 @@ public class AuthController {
 
 	/**
 	 * 通过用户名和密码登录
-	 * @param <T>
+	 * 
+	 * @param      <T>
 	 * @param json
 	 * @return
 	 */
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/loginByUser")
+	@RequestMapping(value = "/loginByUser", method = { RequestMethod.GET })
 	public RestResponse<User> loginByUser(String json) {
 		Map<String, String> map = GsonUtils.toMap(json, String.class);
 		RestResponse<User> result = new RestResponse<User>();

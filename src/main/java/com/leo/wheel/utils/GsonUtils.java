@@ -29,6 +29,7 @@ public class GsonUtils {
 	 * @return
 	 */
 	public static <T> Map<String, T> toMap(String json, Class<T> clazz) {
+		long start = System.currentTimeMillis();
 		if (json == null) {
 			return null;
 		}
@@ -37,6 +38,8 @@ public class GsonUtils {
 			//
 			Map<String, T> map = JSON.parseObject(json, new TypeReference<Map<String, T>>() {
 			});
+			long end = System.currentTimeMillis();
+			System.out.println(String.format("json转换花费时间：%s", end - start));
 			return map;
 		}
 		return null;
