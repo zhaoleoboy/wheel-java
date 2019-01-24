@@ -13,11 +13,10 @@ import java.util.Map;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.junit.Test;
 
-import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Font;
-import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.metadata.TableStyle;
-import com.alibaba.excel.support.ExcelTypeEnum;
+import com.leo.wheel.entity.excel.WriteModel;
+import com.leo.wheel.utils.ExcelUtils;
 
 public class ExcelTest {
 
@@ -91,12 +90,12 @@ public class ExcelTest {
 		for (int i = 0; i < 1000; i++) {
 			List<Object> da = new ArrayList<Object>();
 			da.add("字符串" + i);
-			da.add(Long.valueOf(187837834l + i));
+			da.add(Long.valueOf(111 + i));
 			da.add(Integer.valueOf(2233 + i));
 			da.add(Double.valueOf(2233.00 + i));
 			da.add(Float.valueOf(2233.0f + i));
 			da.add(new Date());
-			da.add(new BigDecimal("3434343433554545" + i));
+			da.add(new BigDecimal("3434343433554545" + i).toString());
 			da.add(Short.valueOf((short) i));
 			object.add(da);
 		}
@@ -106,9 +105,6 @@ public class ExcelTest {
 	@Test
 	public void writeV2007() throws IOException {
 		OutputStream out = new FileOutputStream("v2007.xlsx");
-		ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX, true);
-		Sheet sheet1 = new Sheet(1, 3);
-		sheet1.setSheetName("第一个sheet");
 
 		// 设置列宽 设置每列的宽度
 		Map<Integer, Integer> columnWidth = new HashMap<Integer, Integer>();
@@ -116,13 +112,7 @@ public class ExcelTest {
 		columnWidth.put(1, 20000);
 		columnWidth.put(2, 10000);
 		columnWidth.put(3, 10000);
-		sheet1.setColumnWidthMap(columnWidth);
-		sheet1.setHead(createTestListStringHead());
-		// or 设置自适应宽度
-		// sheet1.setAutoWidth(Boolean.TRUE);
-		writer.write1(createTestListObject(), sheet1);
-		writer.finish();
+		ExcelUtils.exportV2007(out, createTestListObject(), createTestListStringHead(), false, columnWidth);
 		out.close();
-
 	}
 }

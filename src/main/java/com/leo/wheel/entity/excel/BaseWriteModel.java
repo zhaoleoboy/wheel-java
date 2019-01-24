@@ -1,4 +1,4 @@
-package com.leo.wheel.excel;
+package com.leo.wheel.entity.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;

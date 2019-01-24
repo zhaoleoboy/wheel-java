@@ -1,4 +1,4 @@
-package com.leo.wheel.excel;
+package com.leo.wheel.entity.excel;
 
 import java.math.BigDecimal;
 import java.util.Date;

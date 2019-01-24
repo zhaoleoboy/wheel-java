@@ -6,6 +6,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.leo.wheel.entity.common.RestResponse;
 
+/**
+ * JSON工具类
+ * @author leo
+ *
+ */
 public class GsonUtils {
 
 	/**
