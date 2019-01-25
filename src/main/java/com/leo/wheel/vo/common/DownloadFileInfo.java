@@ -1,4 +1,4 @@
-package com.leo.wheel.vo;
+package com.leo.wheel.vo.common;
 
 import java.io.File;
 

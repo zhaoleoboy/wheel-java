@@ -1,4 +1,4 @@
-package com.leo.wheel.file.controller;
+package com.leo.wheel.common.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.leo.wheel.file.service.FileService;
-import com.leo.wheel.vo.DownloadFileInfo;
+import com.leo.wheel.common.service.FileService;
+import com.leo.wheel.vo.common.DownloadFileInfo;
 
+/**
+ * 文件上传、下载
+ * @author leo
+ *
+ */
 @RestController
 @RequestMapping("/file")
 public class FileController {

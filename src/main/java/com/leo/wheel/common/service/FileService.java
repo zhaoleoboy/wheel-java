@@ -1,15 +1,17 @@
-package com.leo.wheel.file.service;
+package com.leo.wheel.common.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.leo.wheel.vo.DownloadFileInfo;
+import com.leo.wheel.vo.common.DownloadFileInfo;
 
 @Service
+@PropertySource("classpath:jdbc.properties") // 如果是application.properties，就不用写，其他文件需要写
 public class FileService {
 
 	@Autowired
