@@ -26,6 +26,7 @@ public class AuthController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/loginByUser", method = { RequestMethod.GET })
 	public RestResponse<User> loginByUser(String json) {
+		// TODO 添加随机验证码
 		Map<String, String> map = GsonUtils.toMap(json, String.class);
 		RestResponse<User> result = new RestResponse<User>();
 		if (map == null) {

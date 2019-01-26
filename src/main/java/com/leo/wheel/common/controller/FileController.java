@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,12 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.leo.wheel.common.service.FileService;
+import com.leo.wheel.entity.common.RestResponse;
 import com.leo.wheel.vo.common.DownloadFileInfo;
 
 /**
  * 文件上传、下载
+ * 
  * @author leo
  *
  */
@@ -44,8 +49,18 @@ public class FileController {
 		return downloadResponse(fileInfo);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/uploadFile")
+	public RestResponse<Boolean> uploadFile(HttpServletRequest request) throws IllegalStateException, IOException {
+		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multiRequest.getFileMap();
+		fileService.uploadFile(fileMap);
+		return RestResponse.result(Boolean.TRUE);
+	}
+
 	/**
 	 * 文件下载
+	 * 
 	 * @param fileInfo
 	 * @return
 	 */
