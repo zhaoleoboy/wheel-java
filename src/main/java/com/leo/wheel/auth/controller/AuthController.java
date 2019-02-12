@@ -12,6 +12,12 @@ import com.leo.wheel.entity.auth.User;
 import com.leo.wheel.entity.common.RestResponse;
 import com.leo.wheel.utils.GsonUtils;
 
+/**
+ * 登录校验
+ * 
+ * @author leo
+ *
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -27,6 +33,7 @@ public class AuthController {
 	@RequestMapping(value = "/loginByUser", method = { RequestMethod.GET })
 	public RestResponse<User> loginByUser(String json) {
 		// TODO 添加随机验证码
+		// TODO 添加https？
 		Map<String, String> map = GsonUtils.toMap(json, String.class);
 		RestResponse<User> result = new RestResponse<User>();
 		if (map == null) {

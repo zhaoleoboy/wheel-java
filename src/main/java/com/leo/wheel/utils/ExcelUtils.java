@@ -13,7 +13,7 @@ import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
 
 /**
- * Excel导入导出工具类
+ * Excel工具类
  * 
  * @author leo
  *

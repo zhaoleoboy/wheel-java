@@ -16,6 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.leo.wheel.vo.common.DownloadFileInfo;
 
+/**
+ * 
+ * @author leo
+ *
+ */
 @Service
 @PropertySource("classpath:jdbc.properties") // 如果是application.properties，就不用写，其他文件需要写
 public class FileService {
@@ -24,10 +29,10 @@ public class FileService {
 	 * 可以通过以下两种方式读取application.properties配置文件的属性
 	 */
 	@Autowired
-	private Environment env;// TODO 读取配置文件用？
+	private Environment env;
 
 	@Value("${file.upload}")
-	private String folder;// 文件上传的文件夹
+	private String folder;// 读取applicaton.properties配置文件，获取文件上传的目录
 
 	/**
 	 * 获取DownloadFileInfo
