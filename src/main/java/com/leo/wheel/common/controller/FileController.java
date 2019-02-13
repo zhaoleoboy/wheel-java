@@ -59,7 +59,7 @@ public class FileController {
 	}
 
 	/**
-	 * 文件下载
+	 * 文件下载到客户端
 	 * 
 	 * @param fileInfo
 	 * @return

@@ -1,6 +1,7 @@
 package com.leo.wheel.utils;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,13 +14,22 @@ import org.apache.commons.lang3.StringUtils;
 public class FileUtils {
 
 	/**
-	 * 下载文件
+	 * 下载文件到服务器
 	 * @param sourceFile
 	 * @param destFile
 	 * @return
+	 * @throws IOException 
 	 */
-	public static String downloadFile(String sourceFile, String destFile) {
+	public static String downloadFile(String sourceFile, String destFile) throws IOException {
+		long start = System.currentTimeMillis();
+		// 下载网络的文件
+		// InputStream in = new URL(sourceFile).openStream();
+		// InputStream in = new FileInputStream(sourceFile);
+		// Files.copy(in, Paths.get(destFile), StandardCopyOption.REPLACE_EXISTING);
 		
+		org.apache.commons.io.FileUtils.copyFile(new File(sourceFile), new File(destFile));
+		long end = System.currentTimeMillis();
+		System.out.println(String.format("文件下载花费的时间为%sms", end - start));
 		return destFile;
 	}
 

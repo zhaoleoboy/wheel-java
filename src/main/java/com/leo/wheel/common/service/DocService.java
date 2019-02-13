@@ -22,6 +22,7 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.leo.wheel.utils.FileUtils;
+import com.leo.wheel.utils.RegexUtils;
 
 /**
  * 文档相关操作的service
@@ -58,12 +59,22 @@ public class DocService {
 		String fileExt = FileUtils.getFileExt(sourceFilePath);
 		// TODO 修改为全局唯一ID
 		String targetFilePath = folder + System.currentTimeMillis() + ".pdf";
-		if ("pdf".equals(fileExt)) {
-			result = FileUtils.downloadFile(sourceFilePath, targetFilePath);
-		}else if ("doc".equals(fileExt) || "docx".equals(fileExt)) {
+		if ("pdf".equals(fileExt) || "jpg".equals(fileExt)) {
+			try {
+				result = FileUtils.downloadFile(sourceFilePath, targetFilePath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if ("doc".equals(fileExt) || "docx".equals(fileExt)) {
 			result = convertWord2Pdf(sourceFilePath, targetFilePath);
 		} else if ("txt".equals(fileExt)) {
 			result = convertTxt2Pdf(sourceFilePath, targetFilePath);
+		} else if (RegexUtils.checkImg(sourceFilePath)) {
+			try {
+				result = FileUtils.downloadFile(sourceFilePath, folder + System.currentTimeMillis() + ".jpg");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -77,8 +88,11 @@ public class DocService {
 		long start = System.currentTimeMillis();
 		String officeHome = getOfficeHome();
 		LocalOfficeManager officeManager = LocalOfficeManager.builder().portNumbers(8100).officeHome(officeHome)
-				.taskExecutionTimeout(5 * 60 * 100L).taskQueueTimeout(1000 * 1000 * 60 * 24L).maxTasksPerProcess(10)
-				.build();
+				.taskExecutionTimeout(5 * 60 * 100L) // 设置任务超时时长
+				.taskQueueTimeout(1000 * 1000 * 60 * 24L) // 设置任务队列超时为24小时
+				.maxTasksPerProcess(10).build();
+		if (officeManager == null)
+			throw new RuntimeException("初始化OpenOffice失败");
 		officeManager.start();
 		OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
 		converter.convert(new File(sourceFilePath), new File(targetFilePath));
@@ -101,7 +115,12 @@ public class DocService {
 
 	}
 
-	// 转换TXT文件为pdf
+	/**
+	 * 转换TXT文件为pdf
+	 * @param sourceFilePath
+	 * @param targetFilePath
+	 * @return
+	 */
 	public String convertTxt2Pdf(String sourceFilePath, String targetFilePath) {
 		String result = null;
 		try {
@@ -124,8 +143,9 @@ public class DocService {
 			read.close();
 			doc.add(p);
 			doc.close();
+			result = targetFilePath;
 			long end = System.currentTimeMillis();
-			System.out.println(String.format("word文档转换为pdf文件花费的时间为：%s", end - start));
+			System.out.println(String.format("txt文档转换为pdf文件花费的时间为：%s", end - start));
 		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		}

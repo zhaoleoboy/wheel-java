@@ -1,6 +1,11 @@
 package com.leo.wheel.common.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jodconverter.office.OfficeException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,13 +33,21 @@ public class PreviewController {
 	 * @param sourceFilePath 源文件的路径
 	 * @return
 	 * @throws OfficeException
+	 * @throws IOException 
 	 */
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/preview")
 	@ResponseBody
-	public String preview(String sourceFilePath) throws OfficeException {
+	public void preview(String sourceFilePath, HttpServletResponse response) throws OfficeException, IOException {
 		String targetFilePath = docService.preview(sourceFilePath);
-		return targetFilePath;
+		// TODO 待完善
+		File file = new File(targetFilePath);
+		byte[] data = null;
+		FileInputStream input = new FileInputStream(file);
+		data = new byte[input.available()];
+		input.read(data);
+		response.getOutputStream().write(data);
+		input.close();
 	}
 
 }
