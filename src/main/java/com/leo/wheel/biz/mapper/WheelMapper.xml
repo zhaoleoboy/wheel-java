@@ -32,7 +32,8 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM wheel
-		WHERE id = #{id}
+		WHERE 1=1
+		<include refid="whereAttr" />
 	</select>
 	<!-- <insert id="insert" parameterType="com.main.model.UserEntity"> INSERT 
 		INTO test.userentity (userName,passWord,user_sex) VALUES (#{userName}, #{passWord}, 

@@ -42,7 +42,6 @@ public class WheelController {
 	 * @param pageSize 每页几条记录
 	 * @return
 	 */
-
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping(value = "/getDataByCondition")
 	public RestResponse<List<WheelInfo>> getDataByCondition(String json, String orderBy, Integer pageNum,
