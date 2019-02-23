@@ -32,31 +32,42 @@ public class UuidUtils {
 	 * 通过Java提供的UUID生成全局唯一ID，缺陷是结果比较长
 	 * @return
 	 */
-	public static String getNativeUUid() {
+	public static String getNativeUUid(boolean isContainSeparator) {
 		long start = System.currentTimeMillis();
 		UUID uuid = UUID.randomUUID();
+		String result = uuid.toString();
+		// 去掉分隔符-
+		if (!isContainSeparator) {
+			result = result.replace("-", "");
+		}
 		long end = System.currentTimeMillis();
 		System.out.println(String.format("Java生成UUID花费的时间为%sms", end - start));
-		return uuid.toString();
+		return result;
 	}
 
 	/**
 	 * 通过Jug工具生成全局唯一ID，缺陷是结果串比较长
+	 * @param isContainSeparator 是否包含分隔符
 	 * @return
 	 */
-	public static String getUuidByJug() {
+	public static String getUuidByJug(boolean isContainSeparator) {
 		long start = System.currentTimeMillis();
 		TimeBasedGenerator gen = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
 		// RandomBasedGenerator randomBasedGenerator =
 		// Generators.randomBasedGenerator();
 		UUID uuid = gen.generate();
+		String result = uuid.toString();
+		// 去掉分隔符-
+		if (!isContainSeparator) {
+			result = result.replace("-", "");
+		}
 		long end = System.currentTimeMillis();
 		System.out.println(String.format("JUG生成UUID花费的时间为%sms", end - start));
-		return uuid.toString();
+		return result;
 	}
 
 	public static void main(String[] args) {
-		System.out.println(UuidUtils.getNativeUUid());
-		System.out.println(UuidUtils.getUuidByJug());
+		System.out.println(UuidUtils.getNativeUUid(false));
+		System.out.println(UuidUtils.getUuidByJug(true));
 	}
 }

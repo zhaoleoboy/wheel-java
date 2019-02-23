@@ -115,7 +115,11 @@
 			<artifactId>java-uuid-generator</artifactId>
 			<version>3.1.5</version>
 		</dependency>
-
+		<!-- commons-lang -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

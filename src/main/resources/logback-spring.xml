@@ -5,10 +5,14 @@
 	debug="false" scan="true" scanPeriod="30 second">
 
 	<property name="PROJECT" value="wheel" />
+	<!-- 日志地址 -->
 	<property name="ROOT" value="logs/${PROJECT}/" />
 	<property name="FILESIZE" value="50MB" />
+	<!-- 最大保存时间 -->
 	<property name="MAXHISTORY" value="100" />
 	<timestamp key="DATETIME" datePattern="yyyy-MM-dd HH:mm:ss" />
+	<!-- 异步缓冲队列的深度,该值会影响性能.默认值为256 -->
+	<property name="queueSize" value="512"></property>
 	<!-- 控制台打印 -->
 	<appender name="STDOUT"
 		class="ch.qos.logback.core.ConsoleAppender">
@@ -137,13 +141,25 @@
 	<logger name="com.github.miemiedev.mybatis.paginator"
 		level="INFO" additivity="false" />
 
-	<!-- Logger 根目录 -->
-	<root level="DEBUG">
-		<appender-ref ref="STDOUT" />
-		<appender-ref ref="DEBUG" />
-		<appender-ref ref="ERROR" />
-		<appender-ref ref="WARN" />
-		<appender-ref ref="INFO" />
-		<appender-ref ref="TRACE" />
-	</root>
+	<!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+	<springProfile name="test,dev">
+		<root level="DEBUG">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="ERROR" />
+			<!-- <appender-ref ref="DEBUG" /> -->
+			<!-- <appender-ref ref="WARN" /> -->
+			<!-- <appender-ref ref="INFO" /> -->
+			<!-- <appender-ref ref="TRACE" /> -->
+		</root>
+	</springProfile>
+
+	<!-- 生产环境. -->
+	<springProfile name="prod">
+		<root level="DEBUG">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="DEBUG" />
+			<appender-ref ref="ERROR" />
+			<appender-ref ref="WARN" />
+		</root>
+	</springProfile>
 </configuration>

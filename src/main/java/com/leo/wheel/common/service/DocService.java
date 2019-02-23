@@ -23,6 +23,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.leo.wheel.utils.FileUtils;
 import com.leo.wheel.utils.RegexUtils;
+import com.leo.wheel.utils.UuidUtils;
 
 /**
  * 文档相关操作的service
@@ -57,8 +58,7 @@ public class DocService {
 	public String preview(String sourceFilePath) throws OfficeException {
 		String result = null;
 		String fileExt = FileUtils.getFileExt(sourceFilePath);
-		// TODO 修改为全局唯一ID
-		String targetFilePath = folder + System.currentTimeMillis() + ".pdf";
+		String targetFilePath = folder + UuidUtils.getUuidByJug(false) + ".pdf";
 		if ("pdf".equals(fileExt) || "jpg".equals(fileExt)) {
 			try {
 				result = FileUtils.downloadFile(sourceFilePath, targetFilePath);
