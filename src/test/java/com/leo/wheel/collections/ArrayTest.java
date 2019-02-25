@@ -30,11 +30,11 @@ public class ArrayTest {
 		System.out.println(String.format("System.arraycopy花费时间为%sms", end - start));
 
 		// 测试循环复制的方法
-//		dest = new int[100000000];
-//		start = System.currentTimeMillis();
-//		for (int i = 0; i < dest.length; i++) {
-//			dest[i] = source[i];
-//		}
+		dest = new int[100000000];
+		start = System.currentTimeMillis();
+		for (int i = 0; i < dest.length; i++) {
+			dest[i] = source[i];
+		}
 		end = System.currentTimeMillis();
 		System.out.println(String.format("循环复制花费时间为%sms", end - start));
 		assertArrayEquals(source, dest);

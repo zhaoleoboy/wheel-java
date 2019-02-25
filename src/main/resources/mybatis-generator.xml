@@ -5,14 +5,11 @@
 
 <generatorConfiguration>
 
-	<context id="DB2Tables" targetRuntime="MyBatis3">
-		<!--数据库链接地址账号密码 
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/miaosha?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC"
-			userId="root" password="123456">
-		</jdbcConnection>-->
+	<context id="PostgresqlTables" targetRuntime="MyBatis3">
+		<!--数据库链接地址账号密码 <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/miaosha?useUnicode=true&serverTimezone=UTC" 
+			userId="root" password="123456"> </jdbcConnection> -->
 		<jdbcConnection driverClass="org.postgresql.Driver"
-			connectionURL="jdbc:postgresql://127.0.0.1:5432/wheel?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC"
+			connectionURL="jdbc:postgresql://127.0.0.1:5432/wheel?useUnicode=true;characterEncoding=utf8;serverTimezone=UTC"
 			userId="postgres" password="zhaoleo">
 		</jdbcConnection>
 
@@ -38,13 +35,11 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
-		<!--生成对应表和类名 -->
-		<table tableName="user_info" domainObjectName="UserDO"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableSelectByExample="false" enableDeleteByExample="false"
-			selectByExampleQueryId="false"></table>
-		<table tableName="user_password"
-			domainObjectName="UserPasswordDO" enableCountByExample="false"
+		<!--生成对应表和类名 <table tableName="wheel" domainObjectName="UserDO" enableCountByExample="false" 
+			enableUpdateByExample="false" enableSelectByExample="false" enableDeleteByExample="false" 
+			selectByExampleQueryId="false"></table> -->
+		<table tableName="wheel"
+			domainObjectName="Wheel" enableCountByExample="false"
 			enableUpdateByExample="false" enableSelectByExample="false"
 			enableDeleteByExample="false" selectByExampleQueryId="false"></table>
 

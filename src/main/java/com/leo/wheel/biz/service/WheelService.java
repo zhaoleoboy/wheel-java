@@ -1,12 +1,17 @@
 package com.leo.wheel.biz.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.leo.wheel.biz.mapper.WheelMapper;
 import com.leo.wheel.entity.biz.WheelInfo;
 
@@ -33,13 +38,40 @@ public class WheelService {
 	}
 
 	/**
-	 * 条件查询
-	 * 
-	 * @param info
+	 * 	条件查询
+	 * @param params
+	 * @param orderBy
 	 * @return
 	 */
-	public WheelInfo getDataByCondition(WheelInfo info) {
-		return wheelMapper.getDataByCondition(info);
+	public List<WheelInfo> getDataByCondition(Map<String, Object> params, String orderBy) {
+		return wheelMapper.getDataByCondition(params);
+	}
+
+	/**
+	 * 	分页的条件查询
+	 * @param params
+	 * @param pageNum
+	 * @param pageSize
+	 * @param orderBy
+	 * @return
+	 */
+	public PageInfo<WheelInfo> getPageDataByCondition(Map<String, Object> params, Integer pageNum, Integer pageSize,
+			String orderBy) {
+		if (MapUtils.isEmpty(params)) {
+			params = new HashMap<String, Object>();
+		}
+		if (pageNum == null) {
+			pageNum = 1;
+		}
+		if (StringUtils.isNotBlank(orderBy)) {
+			params.put("_orderBy", orderBy);
+		} else {
+			params.put("_orderBy", orderBy);
+		}
+		PageHelper.startPage(pageNum, pageSize);
+		List<WheelInfo> result = wheelMapper.getDataByCondition(params);
+		PageInfo<WheelInfo> page = new PageInfo<WheelInfo>(result);
+		return page;
 	}
 
 	/**

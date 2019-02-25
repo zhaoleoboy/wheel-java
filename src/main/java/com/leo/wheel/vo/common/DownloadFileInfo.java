@@ -2,6 +2,11 @@ package com.leo.wheel.vo.common;
 
 import java.io.File;
 
+/**
+ * 
+ * @author leo
+ *
+ */
 public class DownloadFileInfo {
 	private String fileName;
 	private File file;

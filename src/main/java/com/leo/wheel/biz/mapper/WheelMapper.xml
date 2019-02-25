@@ -25,6 +25,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM wheel
+		<!-- <if test="_orderBy !== null"> order by ${_orderBy}</if> -->
 	</select>
 
 	<select id="getDataById" parameterType="java.lang.String"

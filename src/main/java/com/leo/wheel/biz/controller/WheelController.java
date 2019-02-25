@@ -1,16 +1,13 @@
 package com.leo.wheel.biz.controller;
 
-import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.github.pagehelper.PageInfo;
 import com.leo.wheel.biz.service.WheelService;
 import com.leo.wheel.entity.biz.WheelInfo;
 import com.leo.wheel.entity.common.RestResponse;
@@ -44,11 +41,11 @@ public class WheelController {
 	 */
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping(value = "/getDataByCondition")
-	public RestResponse<List<WheelInfo>> getDataByCondition(String json, String orderBy, Integer pageNum,
+	public RestResponse<PageInfo<WheelInfo>> getDataByCondition(String json, String orderBy, Integer pageNum,
 			Integer pageSize) {
 		Map<String, Object> params = GsonUtils.toMap(json, Object.class);
-		System.out.println(params);
-		return null;
+		PageInfo<WheelInfo> pageResult = wheelService.getPageDataByCondition(params, pageNum, pageSize, orderBy);
+		return RestResponse.result(pageResult);
 	}
 
 	/**
@@ -74,7 +71,7 @@ public class WheelController {
 		int result = wheelService.insertData(info);
 		return RestResponse.result(new Integer(result));
 	}
-	
+
 	/**
 	 * 删
 	 * @param info
@@ -87,7 +84,7 @@ public class WheelController {
 		int result = wheelService.delete(params);
 		return RestResponse.result(new Integer(result));
 	}
-	
+
 	/**
 	 * 改
 	 * @param info
