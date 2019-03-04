@@ -29,7 +29,8 @@ public class PreviewController {
 	private DocService docService;
 
 	/**
-	 * 
+	 * 	在线预览功能，支持：
+	 * 	Word、Excel、PDF、TXT、常见图片格式的文件；
 	 * @param sourceFilePath 源文件的路径
 	 * @return
 	 * @throws OfficeException
@@ -42,9 +43,8 @@ public class PreviewController {
 		String targetFilePath = docService.preview(sourceFilePath);
 		// TODO 待完善
 		File file = new File(targetFilePath);
-		byte[] data = null;
 		FileInputStream input = new FileInputStream(file);
-		data = new byte[input.available()];
+		byte[] data = new byte[input.available()];
 		input.read(data);
 		response.getOutputStream().write(data);
 		input.close();

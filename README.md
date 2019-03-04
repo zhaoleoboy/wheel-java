@@ -1,5 +1,16 @@
 ## 功能列表
 
+### TODO
+*	Redis；  
+*	Netty；  
+*	数据库的一对多、多对多关联操作；  
+*	分库分表操作；  
+*	Swagger API；  
+*	Excel\PPT在线预览；  
+
+### 2019-02-28
+1，集成Quartz；  
+
 ### 2019-02-25
 1，添加Mybatis的pageHelper插件的调用；  
 2，配置MyBatis Generator；  

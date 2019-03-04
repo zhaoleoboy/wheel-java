@@ -26,12 +26,12 @@ import com.leo.wheel.utils.RegexUtils;
 import com.leo.wheel.utils.UuidUtils;
 
 /**
- * 文档相关操作的service
+ * 	文档相关操作的service，使用JodConverter
  * 
  * https://blog.csdn.net/xiaqingxue930914/article/details/81121581
  * 
  * 1，JODConverter + openoffice/libreoffice，
- * 程序利用 jodconverter 去连接openoffice(或libreoffice) 服务，实现转换。类似于 MySql 和 数据库连接池。 
+ * 	程序利用 jodconverter 去连接openoffice(或libreoffice) 服务，实现转换。类似于 MySql 和 数据库连接池。 
  * 
  * 2，引入 aspose相关jar包，调用API进行转换，相较于jodconverter： 
  * a、收费;
@@ -59,19 +59,30 @@ public class DocService {
 		String result = null;
 		String fileExt = FileUtils.getFileExt(sourceFilePath);
 		String targetFilePath = folder + UuidUtils.getUuidByJug(false) + ".pdf";
-		if ("pdf".equals(fileExt) || "jpg".equals(fileExt)) {
+		if ("pdf".equals(fileExt)) {
+			// pdf文件直接下载
 			try {
-				result = FileUtils.downloadFile(sourceFilePath, targetFilePath);
+				result = FileUtils.copyFile(sourceFilePath, targetFilePath);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else if ("doc".equals(fileExt) || "docx".equals(fileExt)) {
+			// WORD
 			result = convertWord2Pdf(sourceFilePath, targetFilePath);
+		} else if ("xlsx".equals(fileExt)) {
+			// EXCEL
+			result = convertExcel2Pdf(sourceFilePath, targetFilePath);
+		} else if ("pptx".equals(fileExt) || "ppt".equals(fileExt)) {
+			// PPT
+			result = convertPpt2Pdf(sourceFilePath, targetFilePath);
 		} else if ("txt".equals(fileExt)) {
+			// TXT
 			result = convertTxt2Pdf(sourceFilePath, targetFilePath);
 		} else if (RegexUtils.checkImg(sourceFilePath)) {
+			// 图片
 			try {
-				result = FileUtils.downloadFile(sourceFilePath, folder + System.currentTimeMillis() + ".jpg");
+				result = FileUtils.copyFile(sourceFilePath,
+						folder + System.currentTimeMillis() + "." + fileExt);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -80,7 +91,7 @@ public class DocService {
 	}
 
 	/**
-	 * 转换word文件为pdf
+	 * 	转换word文件为pdf
 	 * @param sourceFilePath
 	 * @throws OfficeException
 	 */
@@ -103,6 +114,26 @@ public class DocService {
 		long end = System.currentTimeMillis();
 		System.out.println(String.format("word文档转换为pdf文件花费的时间为：%s", end - start));
 		return targetFilePath;
+	}
+
+	/**
+	 * 	转换PPT文件为pdf
+	 * @param sourceFilePath
+	 * @throws OfficeException
+	 */
+	public String convertPpt2Pdf(String sourceFilePath, String targetFilePath) throws OfficeException {
+		return convertWord2Pdf(sourceFilePath, targetFilePath);
+	}
+
+	/**
+	 * 	转换Excel文件为pdf，Excel转换为PDF文件时，需要注意以下事项：
+	 * 1，源Excel文件的列过多时，转换的时候会把每行截取到多页中，bug？
+	 * 
+	 * @param sourceFilePath
+	 * @throws OfficeException
+	 */
+	public String convertExcel2Pdf(String sourceFilePath, String targetFilePath) throws OfficeException {
+		return convertWord2Pdf(sourceFilePath, targetFilePath);
 	}
 
 	/**

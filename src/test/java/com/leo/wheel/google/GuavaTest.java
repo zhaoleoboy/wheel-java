@@ -30,7 +30,7 @@ import com.google.common.primitives.Ints;
  * @author leo
  *
  */
-public class TestGuava {
+public class GuavaTest {
 
 	/**
 	 * 
@@ -76,11 +76,11 @@ public class TestGuava {
 	}
 
 	/**
-	 * 
+	 * TODO Guava Stream
 	 */
 	@Test
 	public void testStream() {
-		// TODO
+		// 
 	}
 
 	/**

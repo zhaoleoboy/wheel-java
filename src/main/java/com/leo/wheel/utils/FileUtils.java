@@ -14,13 +14,13 @@ import org.apache.commons.lang3.StringUtils;
 public class FileUtils {
 
 	/**
-	 * 下载文件到服务器
+	 * 	本地文件复制
 	 * @param sourceFile
 	 * @param destFile
 	 * @return
 	 * @throws IOException 
 	 */
-	public static String downloadFile(String sourceFile, String destFile) throws IOException {
+	public static String copyFile(String sourceFile, String destFile) throws IOException {
 		long start = System.currentTimeMillis();
 		// 下载网络的文件
 		// InputStream in = new URL(sourceFile).openStream();
@@ -31,6 +31,17 @@ public class FileUtils {
 		long end = System.currentTimeMillis();
 		System.out.println(String.format("文件下载花费的时间为%sms", end - start));
 		return destFile;
+	}
+	
+	/**
+	 * 	TODO 从网络下载文件
+	 * @param sourceFile
+	 * @param destFile
+	 * @return
+	 * @throws IOException 
+	 */
+	public static String downloadFile(String sourceFile, String destFile) throws IOException {
+		return null;
 	}
 
 	/**
