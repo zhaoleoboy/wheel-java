@@ -31,17 +31,18 @@
 			Model和基于注解的Mapper 对象 type="MIXEDMAPPER",生成基于注解的Java Model和相应的Mapper对象 type="XMLMAPPER",生成SQLMap 
 			XML 文件和独立的Mapper接口 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.miaosha.dao" targetProject="src/main/java">
+			targetPackage="com.leo.wheel.mybatis.mapper"
+			targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
 		<!--生成对应表和类名 <table tableName="wheel" domainObjectName="UserDO" enableCountByExample="false" 
 			enableUpdateByExample="false" enableSelectByExample="false" enableDeleteByExample="false" 
 			selectByExampleQueryId="false"></table> -->
-		<table tableName="wheel"
-			domainObjectName="Wheel" enableCountByExample="false"
-			enableUpdateByExample="false" enableSelectByExample="false"
-			enableDeleteByExample="false" selectByExampleQueryId="false"></table>
+		<table tableName="wheel" domainObjectName="Wheel"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableSelectByExample="false" enableDeleteByExample="false"
+			selectByExampleQueryId="false"></table>
 
 	</context>
 </generatorConfiguration>
