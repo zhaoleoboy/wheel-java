@@ -11,7 +11,7 @@ if errorlevel 1 goto error
 
 echo [Step 2] run wheel project in dev mode.
 echo 不执行测试用例，也不编译测试用例类。
-mvn spring-boot:run -Dspring.profiles.active=prod
+mvn spring-boot:run
 if errorlevel 1 goto error
 
 goto end
