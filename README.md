@@ -6,7 +6,13 @@
 *	数据库的一对多、多对多关联操作；  
 *	分库分表操作；  
 *	Swagger API；  
-*	Excel\PPT在线预览；  
+*	Excel\PPT在线预览；    
+*	文件的[下载](https://www.cnblogs.com/voiphudong/p/3284724.html)，需考虑浏览器的兼容性  
+https://segmentfault.com/q/1010000012845994
+
+### 2019-03-11
+1，修改正则表达式；  
+2，添加预览的测试方法；  
 
 ### 2019-02-28
 1，集成Quartz；  

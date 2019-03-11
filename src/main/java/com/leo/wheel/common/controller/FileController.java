@@ -1,6 +1,7 @@
 package com.leo.wheel.common.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -49,6 +50,21 @@ public class FileController {
 		return downloadResponse(fileInfo);
 	}
 
+	/**
+	 * 	校验文件
+	 * @param fileId
+	 * @param fileName
+	 * @return
+	 * @throws Exception 
+	 */
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/checkFile")
+	@ResponseBody
+	public RestResponse<Boolean> checkFile(String path) throws FileNotFoundException {
+		Boolean result = fileService.checkFile(path);
+		return RestResponse.result(result);
+	}
+
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/uploadFile")
 	public RestResponse<Boolean> uploadFile(HttpServletRequest request) throws IllegalStateException, IOException {
@@ -68,7 +84,6 @@ public class FileController {
 		File file = fileInfo.getFile();
 		String fileName = fileInfo.getFileName();
 		org.springframework.core.io.Resource body = new FileSystemResource(file);
-
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
 		String header = request.getHeader("User-Agent").toUpperCase();
@@ -85,7 +100,6 @@ public class FileController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		headers.setContentDispositionFormData("attachment", fileName);

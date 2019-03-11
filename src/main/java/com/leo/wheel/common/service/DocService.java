@@ -2,17 +2,20 @@ package com.leo.wheel.common.service;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jodconverter.OfficeDocumentConverter;
 import org.jodconverter.office.LocalOfficeManager;
 import org.jodconverter.office.OfficeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -47,17 +50,38 @@ public class DocService {
 	@Value("${file.viewer}")
 	private String folder;// 读取applicaton.properties配置文件，获取文件上传的目录
 
+	@Value("${file.upload}")
+	private String uploader;// 读取applicaton.properties配置文件，获取文件上传的目录
+
+	// 根据操作系统获取OpenOffice安装路径
+	@Value("${office.linux.home}")
+	private String linuxOfficeHome;
+
+	@Value("${office.windows.home}")
+	private String winOfficeHome;
+
+	@Value("${office.mac.home}")
+	private String macOfficeHome;
+
 	/**
-	 * 把word类型的文件或txt文件转换为pdf文件
+	 * 	把word类型的文件或txt文件转换为pdf文件
 	 * @param sourceFilePath
 	 * @return
 	 * @throws OfficeException
+	 * @throws FileNotFoundException 
 	 * @throws IOException 
 	 * @throws DocumentException 
 	 */
-	public String preview(String sourceFilePath) throws OfficeException {
+	public String preview(String sourceFilePath) throws OfficeException, FileNotFoundException {
 		String result = null;
+		if (StringUtils.isBlank(sourceFilePath)) {
+			throw new FileNotFoundException("文件名称异常！");
+		}
 		String fileExt = FileUtils.getFileExt(sourceFilePath);
+		sourceFilePath = uploader + sourceFilePath;// 获取绝对路径
+		if (!FileUtils.isFileExists(sourceFilePath)) {
+			throw new FileNotFoundException("服务器上不存在该文件，请联系管理员！");
+		}
 		String targetFilePath = folder + UuidUtils.getUuidByJug(false) + ".pdf";
 		if ("pdf".equals(fileExt)) {
 			// pdf文件直接下载
@@ -79,7 +103,7 @@ public class DocService {
 			// TXT
 			result = convertTxt2Pdf(sourceFilePath, targetFilePath);
 		} else if (RegexUtils.checkImg(sourceFilePath)) {
-			// 图片
+			// 图片，路径匹配模式有问题
 			try {
 				result = FileUtils.copyFile(sourceFilePath,
 						folder + System.currentTimeMillis() + "." + fileExt);
@@ -147,12 +171,13 @@ public class DocService {
 	}
 
 	/**
-	 * 转换TXT文件为pdf
+	 * 	转换TXT文件为pdf
 	 * @param sourceFilePath
 	 * @param targetFilePath
 	 * @return
 	 */
 	public String convertTxt2Pdf(String sourceFilePath, String targetFilePath) {
+
 		String result = null;
 		try {
 			long start = System.currentTimeMillis();
@@ -163,6 +188,7 @@ public class DocService {
 			Document doc = new Document(rect);
 			PdfWriter.getInstance(doc, out);
 			doc.open();
+			doc.add(new Chunk("")); // << this will do the trick. 否则当txt文件为空时，报异常“the document has no pages”
 			Paragraph p = new Paragraph();
 			p.setFont(FontChinese);
 			BufferedReader read = new BufferedReader(new FileReader(sourceFilePath));
@@ -190,12 +216,12 @@ public class DocService {
 	public String getOfficeHome() {
 		String osName = System.getProperty("os.name");
 		System.out.println("操作系统名称:" + osName);
-		if (Pattern.matches("Linux.*", osName)) {
-			return "/opt/openoffice.org4";
-		} else if (Pattern.matches("Windows.*", osName)) {
-			return "C:\\Program Files (x86)\\OpenOffice 4";
-		} else if (Pattern.matches("Mac.*", osName)) {
-			return "/Application/OpenOffice.org.app/Contents";
+		if (RegexUtils.isLinuxOS(osName)) {
+			return linuxOfficeHome;
+		} else if (RegexUtils.isWindowOS(osName)) {
+			return winOfficeHome;
+		} else if (RegexUtils.isMacOS(osName)) {
+			return macOfficeHome;
 		}
 		return null;
 	}

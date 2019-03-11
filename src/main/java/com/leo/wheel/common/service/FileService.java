@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.leo.wheel.utils.FileUtils;
 import com.leo.wheel.vo.common.DownloadFileInfo;
 
 /**
@@ -48,6 +49,21 @@ public class FileService {
 			throw new FileNotFoundException("file not exist!");
 		}
 		return new DownloadFileInfo(fileName, file);
+	}
+
+	/**
+	 * 
+	 * @param fileId
+	 * @param fileName
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean checkFile(String path) throws FileNotFoundException {
+		path = folder + path;
+		if (!FileUtils.isFileExists(path)) {
+			throw new FileNotFoundException("文件不存在，请联系管理员！");
+		}
+		return Boolean.TRUE;
 	}
 
 	/**

@@ -26,13 +26,13 @@ public class FileUtils {
 		// InputStream in = new URL(sourceFile).openStream();
 		// InputStream in = new FileInputStream(sourceFile);
 		// Files.copy(in, Paths.get(destFile), StandardCopyOption.REPLACE_EXISTING);
-		
+
 		org.apache.commons.io.FileUtils.copyFile(new File(sourceFile), new File(destFile));
 		long end = System.currentTimeMillis();
 		System.out.println(String.format("文件下载花费的时间为%sms", end - start));
 		return destFile;
 	}
-	
+
 	/**
 	 * 	TODO 从网络下载文件
 	 * @param sourceFile
@@ -73,6 +73,19 @@ public class FileUtils {
 		int indexOfFileSeparator = path.lastIndexOf(".");
 		result = path.substring(lastIndexOfFileSeparator, indexOfFileSeparator);
 		return result;
+	}
+
+	/**
+	 * 	校验文件是否存在
+	 * @param path
+	 * @return
+	 */
+	public static Boolean isFileExists(String path) {
+		if (StringUtils.isBlank(path)) {
+			return Boolean.FALSE;
+		}
+		File file = new File(path);
+		return file.exists();
 	}
 
 	public static void main(String[] args) {

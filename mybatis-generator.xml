@@ -6,6 +6,8 @@
 <generatorConfiguration>
 
 	<context id="PostgresqlTables" targetRuntime="MyBatis3">
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
 		<!--数据库链接地址账号密码 <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/miaosha?useUnicode=true&serverTimezone=UTC" 
 			userId="root" password="123456"> </jdbcConnection> -->
 		<jdbcConnection driverClass="org.postgresql.Driver"
@@ -15,7 +17,7 @@
 
 		<!--生成dataobject类的存放位置 -->
 		<javaModelGenerator
-			targetPackage="com.miaosha.dataobject" targetProject="src/main/java">
+			targetPackage="com.leo.wheel.entity.biz" targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
@@ -43,6 +45,6 @@
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableSelectByExample="false" enableDeleteByExample="false"
 			selectByExampleQueryId="false"></table>
-
 	</context>
+
 </generatorConfiguration>

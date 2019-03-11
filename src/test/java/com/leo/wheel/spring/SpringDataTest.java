@@ -20,7 +20,7 @@ import com.leo.wheel.Main;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Main.class)
 @WebAppConfiguration
-public class SpringTest {
+public class SpringDataTest {
 	@Autowired
 	private WebApplicationContext context;
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leo.wheel.common.service.DocService;
+import com.sun.star.uno.Exception;
 
 /**
  * 主要用来处理文档预览功能
@@ -35,6 +36,7 @@ public class PreviewController {
 	 * @return
 	 * @throws OfficeException
 	 * @throws IOException 
+	 * @throws Exception 
 	 */
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/preview")

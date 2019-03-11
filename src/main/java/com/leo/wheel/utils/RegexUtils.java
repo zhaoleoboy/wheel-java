@@ -2,8 +2,10 @@ package com.leo.wheel.utils;
 
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
- * 正则表达式，语法参考
+ * 	正则表达式，语法参考
  * https://github.com/YUSHEN2015/RegexUtils/blob/master/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E6%B3%95%E5%A4%A7%E5%85%A8
  * @author leo
  *
@@ -21,6 +23,9 @@ public class RegexUtils {
 	private static final String DATE_REGEX = "[1-9]{4}([-./])\\\\d{1,2}\\\\1\\\\d{1,2}";// 日期正则
 	private static final String URL_REGEX = "(https?://(w{3}\\\\.)?)?\\\\w+\\\\.\\\\w+(\\\\.[a-zA-Z]+)*(:\\\\d{1,5})?(/\\\\w*)*(\\\\??(.+=.*)?(&.+=.*)?)?";// URL正则
 	private static final String IP_REGEX = "[1-9](\\\\d{1,2})?\\\\.(0|([1-9](\\\\d{1,2})?))\\\\.(0|([1-9](\\\\d{1,2})?))\\\\.(0|([1-9](\\\\d{1,2})?))";// IP正则
+	private static final String LINUX_REGEX = "Linux.*";// linux系统
+	private static final String WIN_REGEX = "Windows.*";// windows系统
+	private static final String MAC_REGEX = "Mac.*";// mac系统
 
 	/**
 	 * 验证文件是否是图片
@@ -28,7 +33,38 @@ public class RegexUtils {
 	 * @return
 	 */
 	public static boolean checkImg(String fileName) {
-		return Pattern.matches(IMG_REGEX, fileName);
+		// 图片的正则表达式
+		if(StringUtils.isBlank(fileName)) {
+			return false;
+		}
+		return Pattern.matches(IMG_REGEX, fileName.replace("/", "").replace(":", ""));
+	}
+
+	/**
+	 * 	校验是否是Linux系统
+	 * @param osName
+	 * @return
+	 */
+	public static boolean isLinuxOS(String osName) {
+		return Pattern.matches(LINUX_REGEX, osName);
+	}
+
+	/**
+	 *	校验是否是Window系统
+	 * @param osName
+	 * @return
+	 */
+	public static boolean isWindowOS(String osName) {
+		return Pattern.matches(WIN_REGEX, osName);
+	}
+
+	/**
+	 * 	检验是否是Mac系统
+	 * @param osName
+	 * @return
+	 */
+	public static boolean isMacOS(String osName) {
+		return Pattern.matches(MAC_REGEX, osName);
 	}
 
 	/**
