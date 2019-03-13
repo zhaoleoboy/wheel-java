@@ -7,7 +7,10 @@ import com.alibaba.fastjson.TypeReference;
 import com.leo.wheel.entity.common.RestResponse;
 
 /**
- * JSON工具类
+ * JSON工具类，转换的时候需要注意以下事项：
+ * 1，为了避免不必要的问题，字符串中的key和value都要带引号；
+ * 2，字符串中带有反斜杠(\)这种转移类型的字符时，需要特殊处理；
+ * 
  * @author leo
  *
  */
@@ -53,7 +56,7 @@ public class GsonUtils {
 	public static void main(String[] args) {
 		RestResponse<String> result = new RestResponse<String>();
 		result.setCode("123");
-		String json = "{'key1':'ssss'}";
+		String json = "{'key1':'sss\\\\ds'}";
 		Map<String, String> map = GsonUtils.toMap(json, String.class);
 		System.out.println(map.get("key1"));
 	}

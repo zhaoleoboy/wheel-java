@@ -28,12 +28,13 @@ public class RegexUtils {
 	private static final String MAC_REGEX = "Mac.*";// mac系统
 
 	/**
-	 * 验证文件是否是图片
+	 * 	验证文件是否是图片
 	 * @param fileName
 	 * @return
 	 */
 	public static boolean checkImg(String fileName) {
 		// 图片的正则表达式
+		// TODO 待完善图片的正则表达式
 		if(StringUtils.isBlank(fileName)) {
 			return false;
 		}

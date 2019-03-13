@@ -6,9 +6,13 @@
 *	数据库的一对多、多对多关联操作；  
 *	分库分表操作；  
 *	Swagger API；  
+*	[CAS](https://www.apereo.org/projects/cas/download-cas)，不过需要注意到是，cas与Angular集成之后会出现[单点登录之后的CORS的问题](https://stackoverflow.com/questions/44800431/caching-effect-on-cors-no-access-control-allow-origin-header-is-present-on-th)  
 *	Excel\PPT在线预览；    
 *	文件的[下载](https://www.cnblogs.com/voiphudong/p/3284724.html)，需考虑浏览器的兼容性  
 https://segmentfault.com/q/1010000012845994
+
+### 2019-03-11
+1，添加邮件发送服务，包括：普通文本邮件、带附件的邮件；  
 
 ### 2019-03-11
 1，修改正则表达式；  
