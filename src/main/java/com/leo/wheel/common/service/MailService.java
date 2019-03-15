@@ -106,6 +106,7 @@ public class MailService {
 		Context context = new Context();
 		// 设置变量的值
 		context.setVariables(paramMap);
+		// SpringBoot中需要先在配置文件里面添加模板文件的根路径
 		String emailContent = templateEngine.process(template, context);
 		sendMessageWithAttachment(to, subject, emailContent, null);
 		logger.info("【模版邮件】成功发送！paramsMap={}，template={}", paramMap, template);

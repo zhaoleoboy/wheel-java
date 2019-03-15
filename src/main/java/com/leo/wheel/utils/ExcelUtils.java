@@ -21,7 +21,9 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 public class ExcelUtils {
 
 	/**
-	 * 导出Excel2007
+	 * 导出Excel2007，注意：
+	 * 1，datas数据类型只支持Integer、Double、Short，String类型，其他类型置空，所以对于其他数据类型，比如日期、Float、Long等需要转换为字符串；
+	 * 
 	 * 
 	 * @param out
 	 * @param datas       数据集
@@ -72,7 +74,7 @@ public class ExcelUtils {
 		headCoulumn2.add("第一列");
 		headCoulumn2.add("第一列1");
 		headCoulumn2.add("第一列2");
-//
+		//
 		headCoulumn3.add("第二列");
 		headCoulumn4.add("第三列");
 		headCoulumn5.add("第4列");

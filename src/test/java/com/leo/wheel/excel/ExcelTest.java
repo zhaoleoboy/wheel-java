@@ -12,13 +12,24 @@ import java.util.Map;
 
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.excel.metadata.Font;
 import com.alibaba.excel.metadata.TableStyle;
+import com.leo.wheel.Main;
 import com.leo.wheel.entity.excel.WriteModel;
+import com.leo.wheel.utils.DateUtils;
 import com.leo.wheel.utils.ExcelUtils;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = Main.class)
 public class ExcelTest {
+
+	@Value("${file.upload}")
+	private String uploader;
 
 	public static TableStyle createTableStyle() {
 		TableStyle tableStyle = new TableStyle();
@@ -46,23 +57,27 @@ public class ExcelTest {
 		List<String> headCoulumn3 = new ArrayList<String>();
 		List<String> headCoulumn4 = new ArrayList<String>();
 		List<String> headCoulumn5 = new ArrayList<String>();
+		List<String> headCoulumn6 = new ArrayList<String>();
 
+		// 合并的标题行list大小需要相等
 		headCoulumn1.add("第一列");
 		headCoulumn1.add("第一列");
 		headCoulumn1.add("第一列");
 		headCoulumn2.add("第一列");
 		headCoulumn2.add("第一列1");
 		headCoulumn2.add("第一列2");
-//
+		//
 		headCoulumn3.add("第二列");
 		headCoulumn4.add("第三列");
 		headCoulumn5.add("第4列");
+		headCoulumn6.add("第4列");
 
 		head.add(headCoulumn1);
 		head.add(headCoulumn2);
 		head.add(headCoulumn3);
 		head.add(headCoulumn4);
 		head.add(headCoulumn5);
+		head.add(headCoulumn6);
 		return head;
 	}
 
@@ -90,11 +105,11 @@ public class ExcelTest {
 		for (int i = 0; i < 1000; i++) {
 			List<Object> da = new ArrayList<Object>();
 			da.add("字符串" + i);
-			da.add(Long.valueOf(111 + i));
+			da.add("字符串" + i);
 			da.add(Integer.valueOf(2233 + i));
-			da.add(Double.valueOf(2233.00 + i));
-			da.add(Float.valueOf(2233.0f + i));
-			da.add(new Date());
+			da.add(Double.valueOf(5555.00 + i));
+			da.add(String.valueOf(Float.valueOf(2233.0f + i)));
+			da.add(DateUtils.getCurDateTime(DateUtils.DATE_FORMAT_SHORT));
 			da.add(new BigDecimal("3434343433554545" + i).toString());
 			da.add(Short.valueOf((short) i));
 			object.add(da);
@@ -104,14 +119,15 @@ public class ExcelTest {
 
 	@Test
 	public void writeV2007() throws IOException {
-		OutputStream out = new FileOutputStream("v2007.xlsx");
-
+		long time = new Date().getTime();
+		OutputStream out = new FileOutputStream(uploader + "export" + time + ".xlsx");
 		// 设置列宽 设置每列的宽度
 		Map<Integer, Integer> columnWidth = new HashMap<Integer, Integer>();
 		columnWidth.put(0, 10000);
 		columnWidth.put(1, 20000);
 		columnWidth.put(2, 10000);
 		columnWidth.put(3, 10000);
+		// TODO 这里只有表头列的合并，看看内容能不能合并？
 		ExcelUtils.exportV2007(out, createTestListObject(), createTestListStringHead(), false, columnWidth);
 		out.close();
 	}
