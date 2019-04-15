@@ -3,8 +3,12 @@ package com.leo.wheel.common.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.leo.wheel.common.mapper.FileMapper;
+import com.leo.wheel.entity.common.FileInfo;
 import com.leo.wheel.utils.FileUtils;
+import com.leo.wheel.utils.GsonUtils;
 import com.leo.wheel.vo.common.DownloadFileInfo;
 
 /**
@@ -31,6 +38,9 @@ public class FileService {
 	 */
 	@Autowired
 	private Environment env;
+
+	@Resource
+	private FileMapper fileMapper;
 
 	@Value("${file.upload}")
 	private String folder;// 读取applicaton.properties配置文件，获取文件上传的目录
@@ -79,18 +89,55 @@ public class FileService {
 		long start = System.currentTimeMillis();
 		Collection<MultipartFile> values = fileMap.values();
 
+		List<FileInfo> fileList = new ArrayList<FileInfo>();
 		for (MultipartFile multipartFile : values) {
 			String fileName = String.valueOf(System.currentTimeMillis());
-			String originalFilename = multipartFile.getOriginalFilename();
-			String showName = originalFilename.substring(0, originalFilename.lastIndexOf("."));
-			String subfix = originalFilename.substring(showName.length());
+			String originalFileName = multipartFile.getOriginalFilename();
+			String showName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+			String subfix = originalFileName.substring(showName.length());
+			String md5 = FileUtils.getMultipartFileMD5(multipartFile);
 			File destFile = new File(folder, fileName + subfix);
 			multipartFile.transferTo(destFile);
-			// TODO insert数据库的操作
+			FileInfo fileInfo = new FileInfo(originalFileName, fileName + subfix, md5);
+			System.out.println(GsonUtils.convertObj2String(fileInfo));
+			fileList.add(fileInfo);
+			
 		}
-
+		// 保存数据库
+		// batchInsertFileList(fileList);
 		long end = System.currentTimeMillis();
 		System.out.println(String.format("文件上传花费的时间为%s", end - start));
 		return Boolean.TRUE;
+	}
+
+	/**
+	 * 	删除文件，分两步：
+	 * 1，删除数据库记录；
+	 * 2，删除文件，删除之前需要校验该文件的MD5值是否被数据库中的其他记录所引用，如果被引用，不能删除文件，否则再删除文件；
+	 * @return
+	 */
+	public int deleteFile() {
+		// TODO
+		// removeFile()
+		// deleteFileInfo()
+		return 0;
+	}
+
+	/**
+	 * 	保存数据存储记录
+	 * @param info
+	 * @return
+	 */
+	public int insertFileInfo(FileInfo info) {
+		return fileMapper.insertFile(info);
+	}
+
+	/**
+	 * 	保存数据存储记录
+	 * @param info
+	 * @return
+	 */
+	public int batchInsertFileList(List<FileInfo> fileList) {
+		return fileMapper.batchInsertFileList(fileList);
 	}
 }

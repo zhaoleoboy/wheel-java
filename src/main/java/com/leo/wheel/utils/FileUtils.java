@@ -2,8 +2,11 @@ package com.leo.wheel.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件操作的工具类
@@ -60,7 +63,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * 通过文件的路径获取文件的名称，不包括文件的类型扩展名
+	 * 	通过文件的路径获取文件的名称，不包括文件的类型扩展名
 	 * @param path
 	 * @return
 	 */
@@ -86,6 +89,22 @@ public class FileUtils {
 		}
 		File file = new File(path);
 		return file.exists();
+	}
+
+	/**
+	 * 	获取Spring上传文件的MD5值
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getMultipartFileMD5(MultipartFile file) throws IOException {
+		long start = System.currentTimeMillis();
+		byte[] uploadBytes = file.getBytes();  
+		byte[] md5Digest = DigestUtils.md5Digest(uploadBytes);
+        String md5 = new BigInteger(1, md5Digest).toString(16);
+        long end = System.currentTimeMillis();
+        System.out.println(String.format("计算文件的MD5值共花费时间为：%s", end - start));
+        return md5;  
 	}
 
 	public static void main(String[] args) {

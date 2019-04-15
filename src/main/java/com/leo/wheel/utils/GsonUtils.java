@@ -30,6 +30,16 @@ public class GsonUtils {
 	}
 
 	/**
+	 * 	转换对象为string
+	 * @param t
+	 * @return
+	 */
+	public static <T> String convertObj2String(T t) {
+		String result = JSON.toJSONString(t);
+		return result;
+	}
+
+	/**
 	 * json转换为Map<String, T>
 	 * 
 	 * @param json

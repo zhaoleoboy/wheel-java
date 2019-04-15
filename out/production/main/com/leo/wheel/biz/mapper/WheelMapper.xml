@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leo.wheel.biz.mapper.WheelMapper">
+	<resultMap id="BaseResultMap"
+		type="com.leo.wheel.entity.biz.WheelInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="begin_date" property="beginDate"
+			jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, name, status, begin_date, end_date
+	</sql>
+
+	<sql id="whereAttr">
+		<if test="id != null"> and wheel.id = #{id}</if>
+	</sql>
+
+	<select id="getDataByCondition"
+		parameterType="com.leo.wheel.entity.biz.WheelInfo"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM wheel
+		<!-- <if test="_orderBy != null"> order by ${_orderBy}</if> -->
+	</select>
+
+	<select id="getDataById" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM wheel
+		WHERE 1=1
+		<include refid="whereAttr" />
+	</select>
+	<!-- <insert id="insert" parameterType="com.main.model.UserEntity"> INSERT 
+		INTO test.userentity (userName,passWord,user_sex) VALUES (#{userName}, #{passWord}, 
+		#{userSex}) </insert> <update id="update" parameterType="com.main.model.UserEntity"> 
+		UPDATE wheel SET <if test="userName != null">userName = #{userName},</if> 
+		<if test="passWord != null">passWord = #{passWord},</if> nick_name = #{nickName} 
+		WHERE id = #{id} </update> <delete id="delete" parameterType="java.lang.Long"> 
+		DELETE FROM wheel WHERE id=#{id} </delete> -->
+
+</mapper>

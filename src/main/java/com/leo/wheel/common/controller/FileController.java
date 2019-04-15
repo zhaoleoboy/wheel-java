@@ -29,7 +29,10 @@ import com.leo.wheel.entity.common.RestResponse;
 import com.leo.wheel.vo.common.DownloadFileInfo;
 
 /**
- * 文件上传、下载
+ * 	文件上传、下载，分以下几种情况：
+ * 1，500M以下的用http协议传输；
+ * 2，500M以上1G以下的用http协议分块或者ftp协议传输；
+ * 3，1G以上的只能用ftp协议传输
  * 
  * @author leo
  *
@@ -51,7 +54,7 @@ public class FileController {
 	}
 
 	/**
-	 * 	校验文件
+	 * 	校验文件是否存在
 	 * @param fileId
 	 * @param fileName
 	 * @return
@@ -65,6 +68,13 @@ public class FileController {
 		return RestResponse.result(result);
 	}
 
+	/**
+	 * 	文件上传
+	 * @param request
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/uploadFile")
 	public RestResponse<Boolean> uploadFile(HttpServletRequest request) throws IllegalStateException, IOException {
@@ -73,9 +83,19 @@ public class FileController {
 		fileService.uploadFile(fileMap);
 		return RestResponse.result(Boolean.TRUE);
 	}
+	
+	/**
+	 * TODO
+	 * 	下载多个文件时，压缩成压缩包的形式下载！
+	 * @param request
+	 * @return
+	 */
+	public RestResponse<Boolean> downloadFilesAsZip(HttpServletRequest request) {
+		return RestResponse.result(Boolean.TRUE);
+	}
 
 	/**
-	 * 文件下载到客户端
+	 * 	文件下载到客户端
 	 * 
 	 * @param fileInfo
 	 * @return
